@@ -5,6 +5,7 @@ import "./index.css";
 import Main from "./Layout/Main";
 import Login from "./pages/Login";
 import React from "react";
+import Register from "./pages/Register";
 
 
 const router = createBrowserRouter([
@@ -13,10 +14,13 @@ const router = createBrowserRouter([
     element: <Main />,
     children: [
       {
-        path:'/login',
-        element: <Login />
-
-      }
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/register",
+        element: <Register />,
+      },
     ],
   },
 ]);
