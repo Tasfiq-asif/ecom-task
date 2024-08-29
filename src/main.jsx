@@ -9,6 +9,7 @@ import React from "react";
 import Register from "./pages/Register";
 import AuthProviders from "./providers/AuthProviders";
 import AddItem from "./components/AddItem";
+import AllItems from "./components/AllItems";
 
 
 const queryClient = new QueryClient();
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
       {
         path: "/addItems",
         element: <AddItem />,
+      },
+      {
+        path:'/',
+        element:<AllItems/>
       }
     ],
   },
