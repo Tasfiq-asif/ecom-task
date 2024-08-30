@@ -51,7 +51,7 @@ const AllItems = () => {
         </div>
 
         <div className="mt-6 mx-3 flex justify-center">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3  ">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3  ">
             {items.map((item) => (
               <div
                 key={item._id}
@@ -80,6 +80,39 @@ const AllItems = () => {
               </div>
             ))}
           </div>
+        </div>
+        <div className="flex justify-center mt-6">
+          <nav className="flex space-x-2">
+            <button
+              onClick={() => handlePageChange(page - 1)}
+              disabled={page === 1}
+              className="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg disabled:opacity-50"
+            >
+              Previous
+            </button>
+
+            {Array.from({ length: totalPages }, (_, i) => (
+              <button
+                key={i + 1}
+                onClick={() => handlePageChange(i + 1)}
+                className={`px-4 py-2 ${
+                  page === i + 1
+                    ? "bg-blue-500 text-white"
+                    : "bg-gray-300 text-gray-800"
+                } rounded-lg`}
+              >
+                {i + 1}
+              </button>
+            ))}
+
+            <button
+              onClick={() => handlePageChange(page + 1)}
+              disabled={page === totalPages}
+              className="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg disabled:opacity-50"
+            >
+              Next
+            </button>
+          </nav>
         </div>
       </div>
     );
