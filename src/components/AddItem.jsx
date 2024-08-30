@@ -29,8 +29,8 @@ const AddItem = () => {
         const image = form.image.files[0];
         const productName = form.productName.value;
         const productCategory = form.productCategory.value;
-        const productPrice = form.productPrice.value;
-        const productDate = form.date.value;
+        const productPrice = parseFloat(form.productPrice.value); 
+        const productDate = new Date(form.date.value);
         const brandName = form.brandName.value;
 
         let imageUrl = ""

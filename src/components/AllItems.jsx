@@ -1,7 +1,8 @@
-import { data } from "autoprefixer";
+
 import axios from "axios";
 import { useEffect, useState } from "react";
-import sortBy from "sort-by";
+import { format } from "date-fns";
+
 
 const AllItems = () => {
 
@@ -14,38 +15,44 @@ const AllItems = () => {
     const [category,setCategory] = useState('')
     const [minPrice,setMinPrice] = useState('')
     const [maxPrice,setMaxPrice] = useState('')
-    const [sortBy,setSortBy] = useState('dateAdded')
-    const [allBrands,setAllBrands] = useState()
-    const [allCategory,setAllCategory] = useState()
+    const [sortOption, setSortOption] = useState("dateAdded");
+    const [allBrands,setAllBrands] = useState([])
+    const [allCategory,setAllCategory] = useState([])
+    const [loading, setLoading] = useState(false);
    
 
     //Fetch items
 
     useEffect(()=>{
         const fetchItems= async() =>{
-            try{
-                const response = await axios('http://localhost:3000/allproducts',{
-                    params:{
-                        page:page,
-                        itemsPerPage:itemsPerPage,
-                        search,
-                        brand,
-                        sortBy,
-                        minPrice,
-                        maxPrice,
-                        category
-                    }
-                })
-              
-                setItems(response.data.products)
-                setTotalPages(response.data.totalPages)
-                
-            }catch(error){
-                console.error(error,'error fetching')
+            try {
+              setLoading(true);
+              const response = await axios(
+                "http://localhost:3000/allproducts",
+                {
+                  params: {
+                    page: page,
+                    limit: itemsPerPage,
+                    search,
+                    brand,
+                    sortBy: sortOption,
+                    minPrice,
+                    maxPrice,
+                    category,
+                  },
+                }
+              );
+
+              setItems(response.data.products);
+              setTotalPages(response.data.totalPages);
+            } catch (error) {
+              console.error(error, "error fetching");
+            } finally {
+              setLoading(false);
             }
         }
         fetchItems()
-    },[brand, category, itemsPerPage, maxPrice, minPrice, page, search, sortBy])
+    },[brand, category, itemsPerPage, maxPrice, minPrice, page, search, sortOption])
 
     //fetch brands
     useEffect(()=>{
@@ -94,7 +101,17 @@ const AllItems = () => {
       setPage(1);
     };
 
-    
+    const handleSortByPrice =(e) => {
+      const selectPriceOption = e.target.value 
+      setSortOption(selectPriceOption)
+
+    }
+
+    const formDate = (dateString)=>{
+      return format(new Date(dateString), 'dd-MM-yyyy')
+    }
+
+
 
     return (
       <div>
@@ -146,6 +163,21 @@ const AllItems = () => {
                 ))}
               </select>
             </div>
+
+            {/* sort by date added */}
+            <div className="form-control w-96">
+              <label className="label">
+                <span className="label-text text-white">Select by Price</span>
+              </label>
+              <select
+                onChange={handleSortByPrice}
+                className="select select-bordered w-full max-w-xs"
+                value={sortOption}
+              >
+                <option value='priceAsc'>Low to High</option>
+                <option value='priceDesc'>High to Low</option>
+              </select>
+            </div>
           </div>
         </div>
 
@@ -170,7 +202,7 @@ const AllItems = () => {
                   </p>
                   <p className="text-gray-700">Price: ${item.productPrice}</p>
                   <p className="text-gray-500 text-sm">
-                    Added on: {item.productDate}
+                    Added on: {formDate(item.productDate)}
                   </p>
                   <p className="text-gray-500 text-sm">
                     Brand: {item.brandName}
