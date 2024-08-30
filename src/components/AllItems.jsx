@@ -115,7 +115,7 @@ const AllItems = () => {
 
     return (
       <div>
-        <div className="bg-[#149777] text-white h-64 w-full mx-3 rounded-xl">
+        <div className="bg-[#149777] text-white h-auto pb-10 w-full mx-3 rounded-xl">
           <div className="flex justify-center items-center mx-auto pt-12">
             <input
               type="text"
@@ -125,7 +125,7 @@ const AllItems = () => {
               className="input input-bordered w-full mx-6 md:mx-36 lg:mx-72 xl:mx-96 text-black"
             />
           </div>
-          <div className="mt-6 mx-3 flex  gap-3 justify-start">
+          <div className="mt-6 mx-3 flex flex-wrap justify-center  gap-3 justify-start">
             {/* sort by brand name */}
             <div className="form-control w-96">
               <label className="label">
@@ -164,7 +164,7 @@ const AllItems = () => {
               </select>
             </div>
 
-            {/* sort by date added */}
+            {/* sort by Price*/}
             <div className="form-control w-96">
               <label className="label">
                 <span className="label-text text-white">Select by Price</span>
@@ -174,8 +174,9 @@ const AllItems = () => {
                 className="select select-bordered w-full max-w-xs"
                 value={sortOption}
               >
-                <option value='priceAsc'>Low to High</option>
-                <option value='priceDesc'>High to Low</option>
+                <option value="" selected>Select</option>
+                <option value="priceAsc">Low to High</option>
+                <option value="priceDesc">High to Low</option>
               </select>
             </div>
           </div>

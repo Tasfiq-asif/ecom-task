@@ -21,16 +21,16 @@ const Navbar = () => {
       <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
               <li><Link to="/">All Items</Link></li>
               <li><Link to="/additem">Add Items</Link></li>
-              <li><Link to="/myitems">My Items</Link></li>
+             
       </ul>
     </div>
     <Link to={'/'} className="btn btn-ghost text-xl">Artsio</Link>
   </div>
   <div className="navbar-center hidden lg:flex">
     <ul className="menu menu-horizontal px-1">
-            <li><NavLink to="/allitems">All Items</NavLink></li>
+            <li><NavLink to="/">All Items</NavLink></li>
             <li><NavLink to="/additems">Add Items</NavLink></li>
-            <li><NavLink to="/myitems">My Items</NavLink></li>
+            
     </ul>
     
   </div>

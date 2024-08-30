@@ -1,25 +1,30 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import auth from "../firebase/firebase.config";
+import { useContext } from "react";
+import { authContext } from "../providers/AuthProviders";
 
 
 
 const Register = () => {
 
+  const{createUser,user} =useContext(authContext)
 
-
-    const handleRegister = e =>{
-        e.preventDefault()
-        const name = e.target.name.value
-        const email = e.target.email.value
-        const password = e.target.password.value
-
-        console.log(name, email, password)
-        createUserWithEmailAndPassword(auth,email,password)
-        .then( result => console.log(result))
-        .catch( err => console.error(err) )
-
-    }
-
+  console.log(createUser)
+  
+  const handleRegister = e =>{
+    e.preventDefault()
+    const name = e.target.name.value
+    const email = e.target.email.value
+    const password = e.target.password.value
+    
+    console.log(name, email, password)
+    createUser(email,password)
+    .then( result => console.log(result))
+    .catch( err => console.error(err) )
+    
+  }
+  
+  console.log(user)
     return (
       <div className="hero bg-base-200 min-h-screen">
         <div className="hero-content flex-col lg:flex-row-reverse">

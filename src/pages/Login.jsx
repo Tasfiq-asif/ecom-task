@@ -1,20 +1,24 @@
-import { signInWithEmailAndPassword } from "firebase/auth";
-import auth from "../firebase/firebase.config";
+
+import { useContext } from "react";
+import { authContext } from "../providers/AuthProviders";
 
 
 const Login = () => {
 
+const {  user,signIn } = useContext(authContext);
 const handleLogin = (e) => {
+  
   e.preventDefault();
- 
+  
   const email = e.target.email.value;
   const password = e.target.password.value;
-
-  console.log(name, email, password);
-  signInWithEmailAndPassword(auth, email, password)
-    .then((result) => console.log(result))
-    .catch((err) => console.error(err));
+  
+  
+  signIn( email, password)
+  .then((result) => console.log(result))
+  .catch((err) => console.error(err));
 };
+console.log(user);
 
     return (
       <div className="hero bg-base-200 min-h-screen">

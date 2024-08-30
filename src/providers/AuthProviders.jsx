@@ -9,6 +9,7 @@ import {
   signOut,
 } from "firebase/auth";
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const authContext = createContext(null)
 
 const AuthProviders = ({children}) => {
@@ -33,7 +34,9 @@ const AuthProviders = ({children}) => {
 
   const googleLogin = () => {
     setLoading(true);
-    return signInWithPopup(auth, GoogleAuthProvider);
+    const provider = new GoogleAuthProvider();
+
+    return signInWithPopup(auth, provider);
   };
 
   //observer
@@ -43,7 +46,7 @@ const AuthProviders = ({children}) => {
       setUser(currentUser);
       setLoading(false);
     });
-    return unSubscribe();
+    return ()=>unSubscribe();
   }, []);
 
   const userInfo = {
