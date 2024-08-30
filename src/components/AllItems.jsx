@@ -1,5 +1,7 @@
+import { data } from "autoprefixer";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import sortBy from "sort-by";
 
 const AllItems = () => {
 
@@ -8,6 +10,14 @@ const AllItems = () => {
     const [totalPages,setTotalPages] = useState(1)
     const [itemsPerPage,setItemsPerPage] = useState(10)
     const [search,setSearch] = useState('')
+    const [brand,setBrands] = useState('')
+    const [category,setCategory] = useState('')
+    const [minPrice,setMinPrice] = useState('')
+    const [maxPrice,setMaxPrice] = useState('')
+    const [sortBy,setSortBy] = useState('dateAdded')
+    const [allBrands,setAllBrands] = useState()
+    const [allCategory,setAllCategory] = useState()
+   
 
     //Fetch items
 
@@ -18,35 +28,124 @@ const AllItems = () => {
                     params:{
                         page:page,
                         itemsPerPage:itemsPerPage,
-                        search:search
+                        search,
+                        brand,
+                        sortBy,
+                        minPrice,
+                        maxPrice,
+                        category
                     }
                 })
+              
                 setItems(response.data.products)
                 setTotalPages(response.data.totalPages)
                 
-
             }catch(error){
                 console.error(error,'error fetching')
             }
         }
         fetchItems()
-    },[itemsPerPage, page, search])
+    },[brand, category, itemsPerPage, maxPrice, minPrice, page, search, sortBy])
+
+    //fetch brands
+    useEffect(()=>{
+      const fetchBrands = async () => {
+        const { data } = await axios("http://localhost:3000/brands");
+        setAllBrands(data)
+      }
+       fetchBrands()
+
+    },[])
+
+     useEffect(() => {
+       const fetchCategories = async () => {
+         const { data } = await axios("http://localhost:3000/category");
+         setAllCategory(data)
+       };
+       fetchCategories();
+     }, []);
 
     const handlePageChange = (pageNumber)=>{
         setPage(pageNumber)
     }
 
-    console.log(items)
+    const handleSearchChange = (event) => {
+      setSearch(event.target.value);
+      setPage(1); // Reset to the first page when a new search is performed
+    };
+
+    const handleChangeBrandName = (event) => {
+      const selectedBrand = event.target.value;
+       if (selectedBrand === "all") {
+         setBrands(""); // Set to empty string or a value your backend interprets as "all brands"
+       } else {
+         setBrands(selectedBrand);
+       }
+      setPage(1);
+    }
+
+    const handleChangeCategory = (event) => {
+      const selectedCategory = event.target.value;
+      if (selectedCategory === "all") {
+        setCategory(""); // Set to empty string or a value your backend interprets as "all brands"
+      } else {
+        setCategory(selectedCategory);
+      }
+      setPage(1);
+    };
+
+    
 
     return (
       <div>
-        <div className="bg-[#149777] text-white h-36 w-full mx-3 rounded-xl">
+        <div className="bg-[#149777] text-white h-64 w-full mx-3 rounded-xl">
           <div className="flex justify-center items-center mx-auto pt-12">
             <input
               type="text"
+              value={search}
+              onChange={handleSearchChange}
               placeholder="Search for Items"
-              className="input input-bordered w-full mx-6 md:mx-36 lg:mx-72 xl:mx-96"
+              className="input input-bordered w-full mx-6 md:mx-36 lg:mx-72 xl:mx-96 text-black"
             />
+          </div>
+          <div className="mt-6 mx-3 flex  gap-3 justify-start">
+            {/* sort by brand name */}
+            <div className="form-control w-96">
+              <label className="label">
+                <span className="label-text text-white">Select by Brands</span>
+              </label>
+              <select
+                onChange={handleChangeBrandName}
+                className="select select-bordered w-full max-w-xs"
+              >
+                <option value="all">Select All</option>
+                {allBrands.map((brand, i) => (
+                  <option key={i} value={brand}>
+                    {brand}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* sort by category */}
+            <div className="form-control w-96 ">
+              <label className="label">
+                <span className="label-text text-white">
+                  Select by Category
+                </span>
+              </label>
+              <select
+                onChange={handleChangeCategory}
+                className="select select-bordered w-full max-w-xs"
+              >
+                <option value="all">Select All</option>
+                {allCategory.map((category, i) => (
+                  <option key={i} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
         </div>
 
@@ -97,7 +196,7 @@ const AllItems = () => {
                 onClick={() => handlePageChange(i + 1)}
                 className={`px-4 py-2 ${
                   page === i + 1
-                    ? "bg-blue-500 text-white"
+                    ? "bg-[#149777] text-white"
                     : "bg-gray-300 text-gray-800"
                 } rounded-lg`}
               >
