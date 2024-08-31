@@ -20,27 +20,27 @@ const Navbar = () => {
       </div>
       <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
               <li><Link to="/">All Items</Link></li>
-              <li><Link to="/additem">Add Items</Link></li>
-             
+              <li><Link to="/additems">Add Items</Link></li>
+
       </ul>
     </div>
-    <Link to={'/'} className="btn btn-ghost text-xl">Artsio</Link>
+    <Link to={'/'} className="btn btn-ghost text-xl">Shop</Link>
   </div>
   <div className="navbar-center hidden lg:flex">
     <ul className="menu menu-horizontal px-1">
             <li><NavLink to="/">All Items</NavLink></li>
             <li><NavLink to="/additems">Add Items</NavLink></li>
-            
+
     </ul>
-    
+
   </div>
- 
+
    <div className="navbar-end">
-    
-   
+
+
     {user?<button onClick={()=>handleSignOut()} className="btn">Log out</button> : <div><Link className="btn" to={'/login'}>LogIn</Link> <Link className="btn" to={'/register'}>Register</Link></div> }
   </div>
-  
+
 </div></div>
   );
 };

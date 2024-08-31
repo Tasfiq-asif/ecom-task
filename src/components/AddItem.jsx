@@ -10,7 +10,7 @@ const AddItem = () => {
     const { mutateAsync: createPost } = useMutation({
       mutationFn: async (product) => {
         const data = await axios.post(
-          "http://localhost:3000/products",
+          "https://jobtask-server-xi.vercel.app/products",
           product
         );
         return data;

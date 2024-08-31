@@ -28,7 +28,7 @@ const AllItems = () => {
             try {
               setLoading(true);
               const response = await axios(
-                "http://localhost:3000/allproducts",
+                "https://jobtask-server-xi.vercel.app/allproducts",
                 {
                   params: {
                     page: page,
@@ -57,7 +57,7 @@ const AllItems = () => {
     //fetch brands
     useEffect(()=>{
       const fetchBrands = async () => {
-        const { data } = await axios("http://localhost:3000/brands");
+        const { data } = await axios("https://jobtask-server-xi.vercel.app/brands");
         setAllBrands(data)
       }
        fetchBrands()
@@ -66,7 +66,7 @@ const AllItems = () => {
 
      useEffect(() => {
        const fetchCategories = async () => {
-         const { data } = await axios("http://localhost:3000/category");
+         const { data } = await axios("https://jobtask-server-xi.vercel.app/category");
          setAllCategory(data)
        };
        fetchCategories();
@@ -102,7 +102,7 @@ const AllItems = () => {
     };
 
     const handleSortByPrice =(e) => {
-      const selectPriceOption = e.target.value 
+      const selectPriceOption = e.target.value
       setSortOption(selectPriceOption)
 
     }
@@ -111,7 +111,15 @@ const AllItems = () => {
       return format(new Date(dateString), 'dd-MM-yyyy')
     }
 
+    const handleSetMinPrice = (e)=>{
+      const minPrice = e.target.value
+      setMinPrice(minPrice)
+    }
 
+    const handleSetMaxPrice = (e) => {
+      const maxPrice = e.target.value;
+      setMaxPrice(maxPrice);
+    };
 
     return (
       <div>
@@ -148,7 +156,7 @@ const AllItems = () => {
             <div className="form-control w-96 ">
               <label className="label">
                 <span className="label-text text-white">
-                  Select by Category
+                  Browse by Category
                 </span>
               </label>
               <select
@@ -174,10 +182,35 @@ const AllItems = () => {
                 className="select select-bordered w-full max-w-xs"
                 value={sortOption}
               >
-                <option value="" selected>Select</option>
+                <option value="" selected>
+                  Select
+                </option>
                 <option value="priceAsc">Low to High</option>
                 <option value="priceDesc">High to Low</option>
               </select>
+            </div>
+
+            <div className="form-control w-96">
+              <label className="label">
+                <span className="label-text text-white">Set Price Limit</span>
+              </label>
+              <div className="flex gap-2">
+                <div className="flex justify-center items-center">
+                  <p>$</p>
+                </div>
+                <input
+                  type="number"
+                  placeholder="Min Price"
+                  className="input input-bordered w-2/5 max-w-xs"
+                  onChange={handleSetMinPrice}
+                />
+                <input
+                  type="number"
+                  placeholder="Max Price"
+                  className="input input-bordered w-2/5 max-w-xs"
+                  onChange={handleSetMaxPrice}
+                />
+              </div>
             </div>
           </div>
         </div>
